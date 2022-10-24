@@ -27,6 +27,9 @@ export async function getStaticProps() {
       allinfo: data.map((item) => ({
         title: item.title,
         description: item.description,
+        type:item.type,
+        link:item.link,
+        createdAt: item.createdAt,
         id: item._id.toString(),
       })),
       },

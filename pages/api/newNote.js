@@ -4,12 +4,12 @@ import { MongoClient } from "mongodb";
 
 async function handler(req, res) {
   if (req.method === "POST") {
-    const data = req.body;
+    const data = {...req.body, createdAt: Date.now()};
 
     //const { title, image, address, description } = data;
 
     const client = await MongoClient.connect(
-      "mongodb+srv://useracm:shortpassword@cluster0.xpdymqp.mongodb.net/?retryWrites=true&w=majority"
+      "mongodb+srv://useracm:ksmn@cluster0.xpdymqp.mongodb.net/?retryWrites=true&w=majority"
     );
     const db = client.db();
 
