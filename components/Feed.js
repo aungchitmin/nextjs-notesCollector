@@ -41,7 +41,7 @@ function Feed(props) {
               <GiNotebook className="text-slate-200 mr-2" size="28" />
             </div>
           )}
-          <h1 className="text-xl text-slate-200 py-1 bg-slate-700 font-medium mx-0 px-2 ">
+          <h1 className="text-xl text-slate-200 py-1 bg-slate-700 rounded-md font-medium mx-0 px-2 ">
             <span className="">{props.title}</span>
           </h1>
         </div>
