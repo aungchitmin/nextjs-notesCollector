@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 
-//api/newNote
+//for adding new notes
 
 async function handler(req, res) {
   if (req.method === "POST") {
@@ -23,6 +23,7 @@ async function handler(req, res) {
 
     res.status(201).json({ message: "info inserted." });
   }
+ 
 }
 
 export default handler;

@@ -1,6 +1,20 @@
 import Feed from "./Feed";
+import { useState } from "react";
 
 function FeedList(props) {
+
+  const [data, setData] = useState(props.data)
+
+  const catFetcher = async(value) => {
+    const response = await fetch(`/api/notes/${value}`, {
+      method: "GET",
+      
+    });
+    const newdata = await response.json()
+    console.log(newdata)
+    setData(newdata)
+  }
+
   return (
     <div className="container mx-auto mt-1 p-1 bg-slate-400">
       <div className="secondaryNav container bg-slate-300 flex justify-between items-center text-md p-3 pb-2  mt-0 mb-3 shadow-xl">
@@ -8,7 +22,8 @@ function FeedList(props) {
           <label htmlFor="categories" className="mr-2">
             Categories:{" "}
           </label>
-          <select name="categories" className="border-none p-1 pt-2 pb-2 text-sm rounded-lg bg-gray-100 font-medium">
+          <select name="categories" className="border-none p-1 pt-2 pb-2 text-sm rounded-lg bg-gray-100 font-medium"
+          onChange={(e) => catFetcher(e.target.value)}>
             <option value="1">All</option>
             <option value="2">Facebook</option>
             <option value="3">Websites</option>
@@ -26,7 +41,7 @@ function FeedList(props) {
           </select>
         </div>
       </div>
-      {props.data.map((item) => (
+      {data.map((item) => (
         <Feed
           key={item.id}
           id={item.id}

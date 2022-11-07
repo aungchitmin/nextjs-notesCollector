@@ -26,7 +26,7 @@ function Form() {
       description: enteredDescription,
     };
 
-    const response = await fetch("/api/newNote", {
+    const response = await fetch("/api/notes", {
       method: "POST",
       body: JSON.stringify(noteData),
       headers: {
