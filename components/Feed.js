@@ -9,17 +9,25 @@ function Feed(props) {
   const [flag, setFlag] = useState(false);
   const ID = props.id;
 
+  const copyFun = () => {
+    navigator.clipboard.writeText(props.link);
+    //console.log(document.getElementById(ID).lastChild.firstChild.textContent)
+    document.getElementById(ID).lastChild.firstChild.textContent="Copied"
+
+  }
+
   const toggle = () => {
     setFlag(!flag);
     document.getElementById(ID).classList.toggle("desc");
+    
   };
 
   return (
     <div
       className="container mx-auto p-2 bg-green-800 justify-between items-center text-center text-slate-200  flex flex-wrap mb-3 shadow-lg"
-      onClick={toggle}
+     
     >
-      <div className="flex flex-1 items-center justify-between">
+      <div className="flex flex-1 items-center justify-between" onClick={toggle}>
         <div className="flex items-center">
           {props.type == 2 && (
             <div>
@@ -46,7 +54,7 @@ function Feed(props) {
           </h1>
         </div>
         <div>
-          <div className="bg-neutral-900 p-2 mr-1 ml-2 rounded-lg ">
+          <div className="bg-neutral-900 p-2 mr-1 ml-2 rounded-lg " >
             {!flag && <BsChevronDown />}
             {flag && <BsChevronUp />}
           </div>
@@ -63,8 +71,9 @@ function Feed(props) {
         </div>
         <p className="p-1 pl-4">{props.link}</p>
 
-        <div className="flex justify-center">
-          <button className="bg-neutral-900 shadow-md w-24 p-2 rounded-lg cursor-pointer">
+        <div className="flex justify-center relative">
+          <button className="bg-neutral-900 shadow-md w-24 p-2 rounded-lg cursor-pointer" onClick={copyFun}>
+          
             Copy
           </button>
         </div>

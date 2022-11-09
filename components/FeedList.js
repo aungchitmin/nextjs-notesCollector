@@ -5,6 +5,7 @@ import { useEffect } from "react";
 function FeedList(props) {
   const [data, setData] = useState(props.data);
   const [originalData, setOriginalData] = useState(data);
+  const [sort, setSort] = useState('')
 
   // const catFetcher = async(value) => {
   //   const response = await fetch(`/api/notes/${value}`, {
@@ -17,10 +18,44 @@ function FeedList(props) {
   // }
   const catFilter = (value) => {
     if (value === "1") {
-      setData(originalData);
+      let copyData = [...originalData];
+     
+      if (sort == 'old') {
+        const dated = copyData.sort((item1, item2) => {
+          const date1 = new Date(item1.createdAt);
+          const date2 = new Date(item2.createdAt);
+          return date1 - date2;
+        });
+        setData(dated)
+      }
+      else {
+        const dated = copyData.sort((item1, item2) => {
+          const date1 = new Date(item1.createdAt);
+          const date2 = new Date(item2.createdAt);
+          return date2 - date1;
+      })
+      setData(dated)
+    }
     } else {
       const filtered = originalData.filter((item) => item.type == value);
-      setData(filtered);
+      let copyData = [...filtered];
+     
+      if (sort == 'old') {
+        const dated = copyData.sort((item1, item2) => {
+          const date1 = new Date(item1.createdAt);
+          const date2 = new Date(item2.createdAt);
+          return date1 - date2;
+        });
+        setData(dated)
+      }
+      else {
+        const dated = copyData.sort((item1, item2) => {
+          const date1 = new Date(item1.createdAt);
+          const date2 = new Date(item2.createdAt);
+          return date2 - date1;
+      })
+      setData(dated)
+    }
     }
   };
   //console.log(data)
@@ -32,6 +67,7 @@ function FeedList(props) {
     //react does not recognize sorting; meaning no changes in state 
     let copyData = [...data];
     if (value === "1") {
+      setSort("new")
       const dated = copyData.sort((item1, item2) => {
         const date1 = new Date(item1.createdAt);
         const date2 = new Date(item2.createdAt);
@@ -43,6 +79,7 @@ function FeedList(props) {
     }
     //for old,date is smaller to bigger,so first-last,asscending
     else {
+      setSort("old")
       const dated = copyData.sort((item1, item2) => {
         const date1 = new Date(item1.createdAt);
         const date2 = new Date(item2.createdAt);
@@ -51,9 +88,10 @@ function FeedList(props) {
       setData(dated);
     }
   };
-  // useEffect(() => {
-    
-  // },[data])
+  
+  const copyFun = () => {
+    console.log('clicked')
+  }
 
   return (
     <div className="container mx-auto mt-1 p-1 bg-slate-400">
@@ -97,6 +135,7 @@ function FeedList(props) {
           link={item.link}
           type={item.type}
           createdAt={item.createdAt}
+          copyFun={copyFun}
         />
       ))}
     </div>
