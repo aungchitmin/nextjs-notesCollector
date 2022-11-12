@@ -3,7 +3,7 @@ import { BiWorld } from "react-icons/bi";
 import { GiNotebook } from "react-icons/gi";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { useState } from "react";
-import { format } from "timeago.js";
+import {format} from 'timeago.js'
 
 function Feed(props) {
   const [flag, setFlag] = useState(false);

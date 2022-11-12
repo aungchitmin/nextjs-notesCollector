@@ -1,38 +1,44 @@
-import { MongoClient } from "mongodb";
+import dbConnect from "../libs/dbConnect";
+import Note from "../models/Note";
 import FeedList from "../components/FeedList";
-//import Hero from "../components/Hero";
 
-export default function App(props) {
+export default function App({ notes }) {
+  const allnotes = notes.sort((item1, item2) => {
+    const date1 = new Date(item1.createdAt);
+    const date2 = new Date(item2.createdAt);
+    return date2 - date1;
+  });
+
   return (
     <>
-      
-      <FeedList data={props.allinfo} />
+      <FeedList data={allnotes} />
     </>
   );
 }
 
-
 export async function getStaticProps() {
-  const client = await MongoClient.connect(
-    "mongodb+srv://useracm:ksmn@cluster0.xpdymqp.mongodb.net/?retryWrites=true&w=majority"
-  );
-  const db = client.db();
-  const noteCollection = db.collection("infoCollection");
-  const data = await noteCollection.find().toArray();
+  await dbConnect();
 
-  client.close();
+  const result = await Note.find();
 
-  return {
-    props: {
-      allinfo: data.map((item) => ({
-        title: item.title,
-        description: item.description,
-        type:item.type,
-        link:item.link,
-        createdAt: item.createdAt,
-        id: item._id.toString(),
-      })),
-      },
-    revalidate: 1,
-  };
+  // const notes = result.map((doc) => {
+  //   const note = doc.toObject();
+  //   note._id = note._id.toString();
+  //   note.createdAt = note.createdAt.toString();
+  //   note.updatedAt = note.updatedAt.toString();
+  //   return note;
+  // });
+
+  const notes = result.map((item) => {
+    return {
+      title: item.title,
+      link: item.link,
+      type: item.type,
+      description: item.description,
+      id: item._id.toString(),
+      createdAt: item.createdAt.toString(),
+      updatedAt: item.updatedAt.toString(),
+    };
+  });
+  return { props: { notes: notes }, revalidate: 1 };
 }

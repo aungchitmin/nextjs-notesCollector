@@ -1,8 +1,5 @@
 import { useRouter } from "next/router";
 import { useRef } from "react";
-// import { Fragment } from "react";
-// import { Menu, Transition } from "@headlessui/react";
-// import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 function Form() {
   const router = useRouter();
@@ -13,8 +10,8 @@ function Form() {
   async function addDataHandler(event) {
     event.preventDefault();
 
-    const selectType = document.getElementById("types")
-    const enteredType = selectType.options[selectType.selectedIndex].value
+    const selectType = document.getElementById("types");
+    const enteredType = selectType.options[selectType.selectedIndex].value;
     const enteredTitle = titleInputRef.current.value;
     const enteredLink = linkInputRef.current.value;
     const enteredDescription = descriptionInputRef.current.value;
@@ -40,10 +37,7 @@ function Form() {
 
   return (
     <div className="container mx-auto mt-2">
-      <form
-        className="flex flex-col items-center"
-        onSubmit={addDataHandler}
-      >
+      <form className="flex flex-col items-center" onSubmit={addDataHandler}>
         <div className="flex justify-between bg-slate-300 items-center p-2 w-4/5 mb-2 shadow-md">
           <label
             htmlFor="title"
@@ -113,7 +107,9 @@ function Form() {
           ></textarea>
         </div>
 
-        <button className="p-2 m-2 bg-green-700 text-slate-200  rounded-md">Add Info</button>
+        <button className="p-2 m-2 bg-green-700 text-slate-200  rounded-md">
+          Add Info
+        </button>
       </form>
     </div>
   );

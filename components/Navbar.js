@@ -12,7 +12,7 @@ export default function Navbar(props) {
 
   return (
     <div>
-      <nav className="container mx-auto p-3 flex flex-row  justify-between shadow-lg bg-blue-300 ">
+      <nav className="container mx-auto p-3 flex flex-row items-center justify-between shadow-lg bg-blue-300 ">
         <h1 className="bg-myowncolor px-2 py-1 text-neutral-900 font-bold text-2xl">Collector</h1>
 
         <div onClick={toggler}>
