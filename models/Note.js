@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
-// user: {
-//   type: mongoose.Schema.Types.ObjectId,
-//   required: true,
-//   ref: "User",
-// },
+
 const NoteSchema = new mongoose.Schema(
   {
-    
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
     title: {
       type: String,
       required: [true, "Please provide a title for this note."],

@@ -1,44 +1,74 @@
-import dbConnect from "../libs/dbConnect";
-import Note from "../models/Note";
-import FeedList from "../components/FeedList";
+import Link from 'next/link'
+import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 
-export default function App({ notes }) {
-  const allnotes = notes.sort((item1, item2) => {
-    const date1 = new Date(item1.createdAt);
-    const date2 = new Date(item2.createdAt);
-    return date2 - date1;
-  });
+
+//login page
+const Index = () => {
+  const [inputs, setInputs] = useState('')
+  const router = useRouter()
+
+  const handleChange = (e) => {
+    setInputs((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch("/api/users/login", {
+      method: "POST",
+      body: JSON.stringify(inputs),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    try {
+      const data = await response.json();
+      //console.log('data reached')
+      //console.log(data)
+      
+       //router.push(`/Notes?${data.token}`);
+       router.push(`/Notes?${data.id}`);
+    } catch (error) {
+      console.log('not run at all')
+      console.log(error)
+      router.push('/')
+    }
+    
+  }
 
   return (
-    <>
-      <FeedList data={allnotes} />
-    </>
-  );
+    <div className="container mx-auto ">
+    <div className='flex flex-col items-center justify-center  h-screen w-screen'>
+    <h1 className='text-2xl font-bold mb-5'>Login</h1>
+    <form className='flex flex-col items-center p-3 w-4/5 gap-5 '>
+      <input
+      className='p-3 border-none text-lg w-full'
+        type="email"
+        placeholder="email"
+        name="email"
+        onChange={handleChange}
+        required
+      />
+      <input
+      className='p-3 border-none text-lg w-full'
+        type="password"
+        placeholder="password"
+        name="password"
+        onChange={handleChange}
+        required
+      />
+      <button className='px-0 m-2 rounded-lg py-2 w-1/2 border-none bg-green-400' onClick={handleSubmit}>Login</button>
+      <span className='text-xs'>
+        Don&apos;t you have an account? <Link href="/Register"><span className='text-sm font-bold'>Register</span></Link>
+      </span>
+    </form>
+    </div>
+  </div>
+  )
 }
 
-export async function getStaticProps() {
-  await dbConnect();
-
-  const result = await Note.find();
-
-  // const notes = result.map((doc) => {
-  //   const note = doc.toObject();
-  //   note._id = note._id.toString();
-  //   note.createdAt = note.createdAt.toString();
-  //   note.updatedAt = note.updatedAt.toString();
-  //   return note;
-  // });
-
-  const notes = result.map((item) => {
-    return {
-      title: item.title,
-      link: item.link,
-      type: item.type,
-      description: item.description,
-      id: item._id.toString(),
-      createdAt: item.createdAt.toString(),
-      updatedAt: item.updatedAt.toString(),
-    };
-  });
-  return { props: { notes: notes }, revalidate: 1 };
-}
+export default Index
